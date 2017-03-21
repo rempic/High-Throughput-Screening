@@ -3,16 +3,16 @@
 ## Goal
 The goal of this project is to develop an initial Integrated image data analysis and machine learning  software prototype for high-throughput drug and genetic phenotypic screen. high-throughput phenotypic screening also called  high-content analysis (HCA) or cellomics, is a used in biological research and drug discovery to identify substances such as small molecules, peptides, or RNAi that alter the phenotype of a cell in a desired manner. The most common analysis involves first the labeling proteins with fluorescent tags, then  the acquisition of spatial and temporal  information by an automated microscope, and finally the measurement and analysis of the changes in cell phenotype   using an automated image analysis software. Through the use of fluorescent tags, it is possible to measure in parallel a wide range of cell components and  changes at a subcellular level 
 
-For this prototype I  developped i) a  data image analsyis software to measure cell features related to  single cells and to cellular spatial realtionships o (e.d., cell confinement, distance and number of neighbouring cells). Furthermore to increase accurancy of the analysis and reduce noise I classified cells according to their specific spatial and biological status. In particular for this prototype as a proof of concept I determine whether a cells has free cell-cell contact edges and whther is a deviding cell. The cell-cell free edge is an important informa as many molecular signals and cellular biologicla processes are inbibited when cells are confluent and confined. The classification was performed by classical machine learning approaches in particular by using logistic regression and a small neural network (deep learning). Other methods line ... were also tested .
+for this project I focuse on quantifying and classifying the spatial heterogeneous effect of drugs and genetic alterations on a large population of cells acquired by using a cell-based in vitro microscopy assay.  “hidden” spatial information are critical in HTS cbecause drug and genetic phenotypic effects on cells strongly depend on cell to cell and cellular spatial interactions. This initaill prototype is structured as a pipeline of separated modules going from image segmentation, data extraction, data management to machine learning classification, statistical analysis and data visualization: 
 
-This project was diveded in the four sub-projects describe below (the code is arranged in the corresponding four folders): 
+
+![workflow](/IMG/workflow.png)
 
 - [Image segmentation by tasselletion](/1_voronoi_segmentation/) 
 - [Data extraction](/2_data_extraction/README.md)
 - [Data managment](/3_data_cleaning/README.md)
 - Machine learning classification 
 
-![workflow](/IMG/workflow.png)
 
 TODO
 - add a picture of cells with a signal which depends on cell-cell contact inhibiton 
