@@ -1,0 +1,168 @@
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r include=FALSE}
+#install.packages("ggplot2")
+library(ggplot2)
+require(ggplot2)
+#install.packages('gridExtra')
+library(gridExtra)
+```
+
+
+
+```{r, include=FALSE}
+setwd("/Users/Remi/Dropbox/1_WORK/2015/4_PROJECTS/1_SOFTWARE/IMAGEJ_LIB/CELL SIGNALING ANALYSIS/CODE/6_DATA_CLEANING")
+```
+# Data Cleaning: TECHNICAL and CONSISTENCY corrections of the data
+Below is listed the standard workflow I run for data cleaning of the extracted data from the image acquisitions  
+
+
+i) Show all attributes names
+
+ii) Check that the number of columns of numerical attributes is consistent with what is expected
+
+iii) Show whether there is any column with special characters (NA, NaN, Null, Inf, -Inf) 
+
+iv) Change found special caracters with a specific numeircal value
+
+v) Check whether there are inconsistent attributes values, e.g,  negative values
+
+
+
+```{r}
+#Load the raw data
+DT <- read.delim("RAW_DATA_SAMPLE.txt")
+
+#print(paste('total number of attributes: ', dim(DT)[2]))
+#print(paste('total number of rows: ', dim(DT)[1]))
+```
+
+```{r echo=FALSE}
+print(paste('total number of attributes: ', dim(DT)[2]))
+print(paste('total number of rows: ', dim(DT)[1]))
+```
+
+
+### i) Show all attributes names
+```{r}
+
+# SHOWS THE ATTRIBUTES NAMES (the first 5 attributes should  contain textual information)
+print(names(DT))
+
+```
+
+### ii) Check that the number of columns of the numerical attributes is consistent with what is expected
+```{r}
+
+# INPUT DATA
+idx_first_numeric_attribute = 4 # (skip the first attributes related to textual information)
+num_image_channels = 4
+num_numerical_attributes_channels=33
+
+# total number of numerical attributes
+tot_num_numerical_cols = num_image_channels * num_numerical_attributes_channels
+
+# count the numerical and non-numerical attributes
+dm = dim(DT)
+num_cols = dm[2]
+count_numeric_attributes = 0;
+no_correct_attributes = c('')
+no_correct_idx_attributes = c()
+count_no_correct = 0;
+# report the columns with elements to correct
+for(i in idx_first_numeric_attribute:num_cols){
+  
+  if(class(DT[,i])=='numeric' || class(DT[,i])=='integer' )
+    count_numeric_attributes = count_numeric_attributes + 1 
+  else{
+    count_no_correct = count_no_correct + 1
+    no_correct_attributes[count_no_correct] = names(DT[i])
+    no_correct_idx_attributes[count_no_correct] = i
+  }
+}
+
+# outcome
+if(count_no_correct==0 && (tot_num_numerical_cols == count_numeric_attributes)){
+  print('THE NUMBER OF ATTRIBUTES IS CORRECT')
+  print(paste('total number of found numerical attribute: ',count_numeric_attributes ))
+  print(paste('total number of expected numerical attribute: ',tot_num_numerical_cols ))
+} else{
+  print('THE NUMBER OF ATTRIBUTES IS NOT CORRECT')
+  print(paste('total number of found numerical attribute: ',count_numeric_attributes  ))
+  print(paste('total number of expected numerical attribute: ', tot_num_numerical_cols))
+  print('non-numerical attributes names: ' )
+  print(no_correct_attributes)
+  print('non-numerical attributes indexes:')
+  print(no_correct_idx_attributes)
+}
+```
+
+### iii) Show whether there are columns with special characters (NA, NaN, Null, Inf, -Inf) 
+
+
+```{r}
+# total number of attributes/columns
+num_cols = dim(DT)[2]
+
+# report the columns with elements to correct
+count_numeric_attributes=0
+found_attributes = c('')
+
+for(i in 1:num_cols){
+    a = is.finite(DT[,i])
+    if(length(a[a==FALSE])>0){
+         count_numeric_attributes = count_numeric_attributes +1
+        found_attributes[count_numeric_attributes] = names(DT[i])
+    }
+}
+
+print(paste('Number of found attributes with special characters:', count_numeric_attributes))
+print(found_attributes)
+```
+
+### iv) Change the found special characters values with a given numerical value
+```{r}
+# total number of attributes/columns
+num_cols = dim(DT)[2]
+
+# report the columns with elements to correct
+for(i in 1:num_cols){
+   if(class(DT[,i])=='numeric' || class(DT[,i])=='integer'){
+      a = is.finite(DT[,i])
+      DT[,i][a==FALSE]=0
+   }
+}
+```
+
+### v) Check there are attribute with inconsistent values, e.g,  negative values
+```{r}
+# total number of attributes/columns
+num_cols = dim(DT)[2]
+
+# report the columns with elements to correct
+count_numeric_attributes=0
+found_attributes = c('')
+
+for(i in 1:num_cols){
+  
+    if(class(DT[,i])=='numeric' || class(DT[,i])=='integer' ){
+      a = (DT[,i]<0 && is.finite(DT[,i]))
+      if(length(a[a==TRUE])>0){
+           count_numeric_attributes = count_numeric_attributes +1
+          found_attributes[count_numeric_attributes] = names(DT[i])
+      }
+    }
+}
+
+print(paste('Number of found attributes with negative values:', count_numeric_attributes))
+print(found_attributes)
+
+```
+
+# SAve the cleaned data frame
+```{r}
+write.table(DT,file="RAW_DATA_SAMPLE_CLEANED.txt", sep="\t")
+```
+
