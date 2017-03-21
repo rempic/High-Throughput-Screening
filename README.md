@@ -8,7 +8,7 @@ for this project I focuse on quantifying and classifying the spatial heterogeneo
 
 ![workflow](/IMG/workflow.png)
 
-- [Image segmentation by tasselletion](/Image Tessellation/) 
+- [Image segmentation by tasselletion](/1_voronoi_segmentation/) 
 - [Data extraction](/2_data_extraction/README.md)
 - [Data managment](/3_data_cleaning/README.md)
 - Machine learning classification 
