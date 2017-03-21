@@ -10,5 +10,5 @@ for this project I focuse on quantifying and classifying the spatial heterogeneo
 
 - [Image segmentation by tasselletion](/Image_Tessellation/README.md) 
 - [Data extraction](/Data_Extraction/README.md)
-- [Data managment](/Data_Management/README.md)
+- [Data managment](/Data_Managment/README.md)
 - Machine learning classification 
