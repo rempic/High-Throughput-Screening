@@ -14,7 +14,7 @@ High Content image acquisitions taken with an automated confocal microscope at 2
 
 ## Software
 
-The Voronoi/Segmentator takes in input i) the path to the folder where the images are located,ii)  the path to the folder where to save the calculated ROIs related to the single tassells of the voronoi diagram. iii) A string to identify the type of file name from which the Voronoi diagram is calculated and, iv) the median radius and threshoolding metdhod used for the sgementation of the seeds. It returns a list of region of interest (ROIS) of to the single tassells of the voronoi diagram.
+The Voronoi/Segmentator takes in input i) the path to the folder where the images are located,ii)  the path to the folder where to save the calculated ROIs related to the single tassells of the voronoi diagram. iii) A string to identify the type of file name from which the Voronoi diagram is calculated and, iv) the median filter radius and thresholding method used for the sgementation of the seeds. The segmentator returns a file containing the regions of interest (ROIS) of all voronoi tessels .
 
 
 [Voronoi](./Voronoi).
