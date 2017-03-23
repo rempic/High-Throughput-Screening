@@ -19,7 +19,7 @@ The Voronoi/Segmentator takes in input i) the path to the folder where the image
 
 ![UI](/IMG/voronoi_imagej_UI.png)
 
-In [TEST](/TEST) folder find an image to test the segmentator
+In the [TEST](./TEST) folder find an image to test the segmentator
 ## TO DO
 - [ ] to use a randomised algorithm based on a KD-TREE data structure to represent the voroni regions locations
 
