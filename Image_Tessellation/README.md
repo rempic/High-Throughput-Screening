@@ -17,9 +17,9 @@ High Content image acquisitions taken with an automated confocal microscope at 2
 The Voronoi/Segmentator takes in input i) the path to the folder where the images are located,ii)  the path to the folder where to save the calculated ROIs related to the single tassells of the voronoi diagram. iii) A string to identify the type of file name from which the Voronoi diagram is calculated and, iv) the median filter radius and thresholding method used for the sgementation of the seeds. The segmentator returns a file containing the regions of interest (ROIS) of all voronoi tessels .
 
 
-[Voronoi](./Voronoi).
 ![UI](/IMG/voronoi_imagej_UI.png)
 
+In [TEST](/TEST) folder find an image to test the segmentator
 ## TO DO
 - [ ] to use a randomised algorithm based on a KD-TREE data structure to represent the voroni regions locations
 
