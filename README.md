@@ -11,4 +11,4 @@ As a proof of concept for this project I focused on quantifying and classifying 
 - [Voronoi Image Segmentator](/Image_Tessellation/README.md) 
 - [Data extraction](/Data_Extraction/README.md)
 - [Data management](/Data_Managment/README.md)
-- Machine learning classification 
+- Machine Learning classification(/machine_learning_classifiers)
