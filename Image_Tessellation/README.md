@@ -1,6 +1,6 @@
-## Image segmentation by voronoi tassellation
+## Voronoi Image Segmentator
 
-The goal of this module is to segment high content images (Figure 1) in cellular units. To determine the cellular units I use a Voronoi diagram (Figure 2). The voronoi diagram is built from a set of points called seeds, which in our case they are the cell nuclei. Then from each seed it determine a corresponding region consisting of all points closer to that seed than to any other. In other words the  cells of a voronoi diagram, also called tassells, are a measure of how close the seed/nucleus of that region is to its neighbours seeds/nuclei. In terms of biology the single tassels of a voronoi diagram thranslates in a measurement cell density, which is critical for many biological processes: proliferation, apoptosis, cell signaling etc. 
+The Voronoi image segmentator is used to segment high content images (Figure 1) in cellular units. To determine the cellular units I use a Voronoi diagram (Figure 2). The voronoi diagram is built from a set of points called seeds, which in our case they are the cell nuclei. Then from each seed it determine a corresponding region consisting of all points closer to that seed than to any other. In other words the  cells of a voronoi diagram, also called tassells, are a measure of how close the seed/nucleus of that region is to its neighbours seeds/nuclei. In terms of biology the single tassels of a voronoi diagram thranslates in a measurement cell density, which is critical for many biological processes: proliferation, apoptosis, cell signaling etc. 
 
 
 ![Screenshot](/IMG/HCI_example2.png)
