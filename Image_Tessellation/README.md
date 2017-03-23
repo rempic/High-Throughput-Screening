@@ -14,7 +14,7 @@ High Content image acquisitions taken with an automated confocal microscope at 2
 
 ## Software
 
-The Image Voronoi/Segmentation software is developped in imageJ/Fiji. It takes in input the path to the folder where the images are located, the path to the folder where to save the calculated ROIs related to the single tassells of the voronoi diagram. A string to identify the type of file name from which the Voronoi diagram is calculated and median radius and threshoolding metdho for sementation  of the seeds from the image. It returns a list of region of interest (ROIS) . related to the single tassells of the voronoi diagram
+The Voronoi/Segmentator takes in input i) the path to the folder where the images are located,ii)  the path to the folder where to save the calculated ROIs related to the single tassells of the voronoi diagram. iii) A string to identify the type of file name from which the Voronoi diagram is calculated and, iv) the median radius and threshoolding metdhod used for the sgementation of the seeds. It returns a list of region of interest (ROIS) of to the single tassells of the voronoi diagram.
 
 
 [Voronoi](./Voronoi).
@@ -23,5 +23,5 @@ The Image Voronoi/Segmentation software is developped in imageJ/Fiji. It takes i
 ## TO DO
 - [ ] to use a randomised algorithm based on a KD-TREE data structure to represent the voroni regions locations
 
-The KD-TREE structure  allows efficient calculation (O(k log n)) of spatial information, e.g., number and location of neighbouring nuclei/cells (voronoi cells) given a specific region/nucleus. "A k-d tree, or k-dimensional tree, is a data structure used for organizing some number of points in a space with k dimensions. It is a binary search tree with other constraints imposed on it. K-d trees are very useful for range and nearest neighbor searches"
+The KD-TREE structure allows efficient calculation (O(k log n)) of spatial information, e.g., number and location of neighbouring nuclei/cells (voronoi cells) given a specific region/nucleus. "A k-d tree, or k-dimensional tree, is a data structure used for organizing some number of points in a space with k dimensions. It is a binary search tree with other constraints imposed on it. K-d trees are very useful for range and nearest neighbor searches"
 ![kd-tree](/IMG/kd_tree.png)
