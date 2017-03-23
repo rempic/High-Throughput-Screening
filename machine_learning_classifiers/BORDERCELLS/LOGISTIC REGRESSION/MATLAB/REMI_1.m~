@@ -1,0 +1,69 @@
+% test SIGMOID
+x = (-10:10);
+y = REMI_2_SIGMOID(x);
+plot(x,y);
+
+
+% load data
+%%d = importdata('REMI_DATA_NONORM.txt');
+d = importdata('REMI_DATA4.txt');
+Xo = d.data(:,1:2);
+Xo = [ones(size(X,1),1),Xo]; %add X0
+
+X = d.data(:,1:2);
+X = [ones(size(X,1),1),X]; %add X0
+y = d.data(:,3);
+
+mx = max(X);
+mn = min(X);
+md = mean(X);
+
+%for i=1:size(X,1)
+    %%X(i,2:3) = X(i,2:3)./m(2:3);
+%    X(i,2:3) = (X(i,2:3)-mn(2:3))./(mx(2:3)-mn(2:3));
+%end 
+
+% NORm
+for i=1:size(X,1)
+    X(i,2:3) = log(X(i,2:3));
+end 
+m = max(X);
+
+
+fprintf(['Plotting data with + indicating (y = 1) examples and o ' ...
+         'indicating (y = 0) examples.\n']);
+
+plotData(X(:,2:3), y);
+
+% TEST the COSTFUNCTION
+theta = zeros(size(X,2), 1);
+[J, grad] = REMI_3_COSTFUNCTION(theta, X, y);
+
+% run the logistic regression
+options = optimset('GradObj', 'on', 'MaxIter', 100);
+
+initial_theta = zeros(size(X,2), 1);
+%  Run fminunc to obtain the optimal theta
+%  This function will return theta and the cost 
+%[theta_out, cost] = fminunc(@(t)(costFunction(t, X, y)), initial_theta, options);
+
+% Set regularization parameter lambda to 1 (you should vary this)
+lambda = 1;
+
+initial_theta = zeros(size(X,2), 1);
+
+% Set Options
+options = optimset('GradObj', 'on', 'MaxIter', 400);
+
+% Optimize
+[theta_out, J, exit_flag] = ...
+	fminunc(@(t)(costFunctionReg(t, X, y, lambda)), initial_theta, options);
+
+
+mn = min(X);
+mx = max(X);
+
+REMI_plotDecisionBoundary(theta_out, X, y, [mn(2), mx(2), mn(3), mx(3)]);
+
+% 1: Distance, 2:area, 3:y (isBorder?)
+sigmoid([ 1 log(Xo(1,2:3))] * theta_out)
