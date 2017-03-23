@@ -1,22 +1,24 @@
 ## Image segmentation by voronoi tassellation
 
-The goal of this part of the project is to segment an image acquisition (Figure 1) in cellular units so that we can calculate the data features for the single cells in the entire cell population. In particularr to determine the cellular units I used a voronoi diagram (Figure 2) on the cell nuclei.  the voronoi diagram is built from a set of points, called seeds, sites or generators, in this project the seeds are the nuclei centrois and for each seed is determned  a corresponding region consisting of all points closer to that seed than to any other. In other words the  regions of a voronoi diagrma , also called Voronoi cells or tassells , are a measure of how close the seed/nucleus of that region is to its neighbours seeds/nuclei. In terms of biology the single tassels of a voronoi diagram gives a mearumented of he level of cell confinement or contact inhibition, which is know to affect many cellular phenotypic effect: proliferation, apoptosis, cell signaling etc. This type of information might be critical to increase the accurancy for example of a drug or genetic screen which has as readout for example the cell proliferation. 
+The goal of this part of the project is to segment  acquired  high content images (Figure 1) in cellular units and then to measure  single cell spatial and morphological values. In particular, to determine the cellular units I calculate a voronoi diagram (Figure 2).  The voronoi diagram is built from a set of points, called seeds, sites or generators, in this project the seeds are the nuclei, and, from each seed it determine a corresponding region consisting of all points closer to that seed than to any other. In other words the  regions of a voronoi diagram, also called Voronoi cells or tassells , are a measure of how close the seed/nucleus of that region is to its neighbours seeds/nuclei. In terms of biology the single tassels of a voronoi diagram gives a measurement cell density, which is know to be importatn for many biological processes: proliferation, apoptosis, cell signaling etc. 
 
 
 ![Screenshot](/IMG/HCI_example2.png)
 **Figure 1**
-I used  to test my software High Content image acquisitions taken with an automated confocal microscope at 20x magnification from Human cells plated in 96wells under various drug treatment and genetic alterations. The image above show the acquistion of nuclei used for calcualting the voronoi diagram. The acquistion covers a total area of about 3x3mm from a single well. 
+High Content image acquisitions taken with an automated confocal microscope at 20x magnification from Human cells plated in 96wells under various drug treatment and genetic alterations. The image above show the acquistion of nuclei used for calcualting the voronoi diagram (figure below).
 
 
 ![Screenshot](/IMG/voronoi_5.png)
-**Figure 2** Voronoi diagram on an entire High content image acquisiton. More or less confined of regions of the images are hightlited. 
+**Figure 2** An example of Voronoi diagram
 
 
 ## Software
-the Image Voronoi/Segmentation software prototype was developped in imageJ/Fiji (2.0.0):
+
+The Image Voronoi/Segmentation software is developped in imageJ/Fiji. It takes in input the path to the folder where the images are located, the path to the folder where to save the calculated ROIs related to the single tassells of the voronoi diagram. A string to identify the type of file name from which the Voronoi diagram is calculated and median radius and threshoolding metdho for sementation  of the seeds from the image. It returns a list of region of interest (ROIS) . related to the single tassells of the voronoi diagram
+
+
 [Voronoi](./Voronoi).
 ![UI](/IMG/voronoi_imagej_UI.png)
-The Image Voronoi/Segmentation software returns a list of region of interest (ROIS) to be used on the actuired images and measure their content. 
 
 ## TO DO
 - [ ] to use a randomised algorithm based on a KD-TREE data structure to represent the voroni regions locations
