@@ -20,7 +20,8 @@ The Voronoi/Segmentator takes in input i) the path to the folder where the image
 ![UI](/IMG/voronoi_imagej_UI.png)
 
 In the [TEST](./TEST) folder find an image to test the segmentator
-## TO DO
+
+## NEXT
 - [ ] to use a randomised algorithm based on a KD-TREE data structure to represent the voroni regions locations
 
 The KD-TREE structure allows efficient calculation (O(k log n)) of spatial information, e.g., number and location of neighbouring nuclei/cells (voronoi cells) given a specific region/nucleus. "A k-d tree, or k-dimensional tree, is a data structure used for organizing some number of points in a space with k dimensions. It is a binary search tree with other constraints imposed on it. K-d trees are very useful for range and nearest neighbor searches"
