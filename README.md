@@ -12,5 +12,5 @@ As a proof of concept for this project I focused on quantifying and classifying 
 - [Data extraction](/Data_Extraction/README.md)
 - [Data management](/Data_Managment/README.md)
 - [Machine Learning Classifiers](/machine_learning_classifiers/README.md)
-  - [Classifier for cells at the edge](master/MACHINE-LEARNING-Edge-Cells-classifier/README.md)
+  - [Classifier for cells at the edge](/master/MACHINE-LEARNING-Edge-Cells-classifier/README.md)
   - [Classifier for mitotic cells](machine_learning_classifiers/MITOTICCELLS/README.md)
