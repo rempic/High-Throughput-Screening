@@ -1,0 +1,263 @@
+---
+#title: "FEATURES_SELECTION1"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# 1. DATA PREPARATION
+
+i)  Clean and Visualize features and relative stats
+ii) Transform features: substitute values and normalization of absolute values
+iii) Normalize distributions (e.g, log transformation)
+iv) Rescaling features
+v) Shuffle and split the data-set in training and test sets
+
+
+```{r echo=FALSE}
+
+## LOAD THE DATA
+
+WD = '/Users/Remi/Dropbox/1_WORK/2015/4_PROJECTS/1_SOFTWARE/GITHUB/High Throughput Screening/machine_learning_classifiers/BORDERCELLS/1_DATA_PREPARATION'
+
+setwd(WD)
+
+d0 <- read.delim("2_data_manual_selection.txt")
+
+# exclude the text
+d1 = d0[,3:length(d0)]
+
+
+
+```
+
+
+# 1.1 Clean data
+
+```{r}
+# total number of attributes/columns
+DT = d1 # LOAD THE DATA IN 'd1'
+num_cols = dim(DT)[2]
+
+# report the columns with elements to correct
+count_numeric_attributes=0
+found_attributes = c('')
+num_spec_values = c()
+
+for(i in 1:num_cols){
+    a = is.finite(DT[,i])
+    l = length(a[a==FALSE])
+    num_spec_values[i] = l
+    if(l>0){
+         count_numeric_attributes = count_numeric_attributes +1
+        found_attributes[count_numeric_attributes] = names(DT[i])
+        #print(names(DT[i]))
+        #print(DT[,i][a==FALSE])
+    }
+}
+
+if(count_numeric_attributes>0)print(found_attributes)
+
+print(paste('Number of found attributes with special characters:', count_numeric_attributes))
+
+```
+
+
+
+# 1.2 Show features and statistics (log scale)
+```{r}
+d_edge = d1[,2:length(d1)]
+d_edge_mtx =log(data.matrix(d_edge, rownames.force = NA),2)
+op <- par(mar = c(0,10,0,0))
+boxplot(d_edge_mtx, horizontal=TRUE, las=2, cex.axis = 0.7, ylim=c(0,20))
+par(op)
+```
+
+
+# 1.3 Transform features:substitute nucleus and voronoi x,y position with their distance
+```{r}
+# Claculate the distance
+Nx = d1$NUCL.dna.X
+Ny = d1$NUCL.dna.Y
+Vx = d1$VORO.protein3.CENTRE_X
+Vy = d1$VORO.protein3.CENTRE_Y
+
+dist= sqrt((Nx-Vx)^2+(Ny-Vy)^2)
+
+# add distance column to the data frame
+dd = d1
+n_col = dim(dd)[2]
+dd[,n_col+1] = dist
+names(dd)[n_col+1]='NUCL_VORO.Distance'
+
+# DROP from nuclei and VORO features: X, Y columns 
+drops <- c("NUCL.dna.X","NUCL.dna.Y", "VORO.protein3.CENTRE_X", "VORO.protein3.CENTRE_Y")
+d2 = dd[ , !(names(dd) %in% drops)]
+
+
+# PLOT new features
+dd = d2[,2:length(d2)]
+dd =log(data.matrix(dd),2)
+op <- par(mar = c(0,10,0,0))
+boxplot(dd, horizontal=TRUE, las=2, cex.axis = 0.7, ylim=c(0,20))
+par(op)
+
+
+```
+
+
+
+# 1.4 Transform features: normalize by nuclear dimension to make the classifier independent of absolute values
+
+```{r}
+
+# VORO.protein3.FERET
+N_feret = d2$NUCL.dna.FERET
+V_feret = d2$VORO.protein3.FERET
+V_feret_NORM = V_feret/N_feret
+#d1$VORO.protein3.AREA
+N_area = d2$NUCL.dna.AREA
+V_area = d2$VORO.protein3.AREA
+V_area_NORM = V_area/N_area
+#d1$CYTO.protein3.AREA
+C_area = d2$CYTO.protein3.AREA
+C_area_NORM = C_area/N_area
+# NUCL_VORO.Distance
+NV_dist = d2$NUCL_VORO.Distance
+NV_dist_NORM = NV_dist/N_feret
+
+
+# add VORO.Feret.norm
+dd = d2
+n_col = dim(dd)[2]
+dd[,n_col+1] = V_feret_NORM
+names(dd)[n_col+1]='VORO.Feret.norm'
+
+# add VORO.Area.norm
+n_col = dim(dd)[2]
+dd[,n_col+1] = V_area_NORM
+names(dd)[n_col+1]='VORO.Area.norm'
+
+# add CYTO.Area.norm
+n_col = dim(dd)[2]
+dd[,n_col+1] = C_area_NORM
+names(dd)[n_col+1]='CYTO.Area.norm'
+
+# add NUCL_VORO.Distance
+n_col = dim(dd)[2]
+dd[,n_col+1] = NV_dist_NORM
+names(dd)[n_col+1]='NUVO.distance.norm'
+
+
+# DROP from nuclei and VORO features: X, Y columns 
+drops <- c("NUCL.dna.FERET","VORO.protein3.AREA", "CYTO.protein3.AREA", "VORO.protein3.FERET", "NUCL.dna.AREA", "NUCL_VORO.Distance")
+d3 = dd[ , !(names(dd) %in% drops)]
+
+
+# SHOW the new features
+dd = d3[,2:length(d3)]
+dd =log(data.matrix(dd),2)
+op <- par(mar = c(0,10,0,0))
+boxplot(dd, horizontal=TRUE, las=2, cex.axis = 0.8, ylim=c(0,30))
+par(op)
+
+```
+
+## 1.5 normal distribution: show histogram 
+
+```{r}
+par(mfrow=c(4,2))
+par(mar = rep(2, 4))
+dd_mtx =data.matrix(d3, rownames.force = NA)
+n_col = dim(dd_mtx)[2]
+for(i in 2:n_col){
+  hist(dd_mtx[,i],100,main=names(d3)[i], cex.axis=1, font.main=1, cex.main=1.3)
+}
+
+```
+
+
+## 1.6 normal distribution: Test log tansformation
+
+```{r}
+par(mfrow=c(4,2))
+par(mar = rep(2, 4))
+dd_mtx =log(data.matrix(d3, rownames.force = NA),2)
+n_col = dim(dd_mtx)[2]
+for(i in 2:n_col){
+  hist(dd_mtx[,i],100,main=names(d3)[i], cex.axis=1, font.main=1, cex.main=1.3)
+}
+
+
+```
+
+
+
+## 1.7 normal distribution: Apply the log transformation
+```{r}
+d4 =d3
+n_col = dim(dd_mtx)[2]
+for(i in 2:n_col){
+  a = d4[,i]
+  d4[,i] =log(a,2)
+}
+
+par(mfrow=c(4,2))
+par(mar = rep(2, 4))
+dd_mtx =data.matrix(d4, rownames.force = NA)
+n_col = dim(dd_mtx)[2]
+for(i in 2:n_col){
+  hist(dd_mtx[,i],50,main=names(d4)[i], cex.axis=1, font.main=1, cex.main=1.3)
+}
+
+```
+
+
+
+## 1.8 rescaling (store the mean standard deviation for test and validation)
+```{r}
+
+dd = d4
+FEATURES_MEAN = apply(data.matrix(dd),2,mean)
+FEATURES_STDEV = apply(data.matrix(dd),2,sd)
+for(i in 2:dim(dd)[2]){
+  dd[,i]= (dd[,i] - FEATURES_MEAN[i])/ FEATURES_STDEV[i]
+}
+
+d5 = dd
+dd =data.matrix(dd)
+op <- par(mar = c(0,10,0,0))
+boxplot(dd, horizontal=TRUE, las=2, cex.axis = 1, xlim=c(0,10))
+par(op)
+```
+
+```{r echo=FALSE}
+# save data
+write.table(d5,file='3_data_processed.txt', sep="\t", quote=FALSE, row.names=FALSE)
+```
+
+
+# 1.9 Shuffle and split the data-set in Training and Test sets
+
+```{r}
+
+TRAIN_PERC = 0.75
+
+## 75% of the sample size
+smp_size <- floor(TRAIN_PERC * nrow(d5))
+
+## set the seed to make your partition reproductible
+set.seed(123)
+train_ind <- sample(seq_len(nrow(d5)), size = smp_size)
+
+train <- d5[train_ind, ]
+test <- d5[-train_ind, ]
+
+write.table(train, file = "4_data_training.txt", sep = "\t", quote=FALSE, row.names=FALSE, col.names = colnames(train))
+write.table(test, file = "4_data_test.txt", sep = "\t", quote=FALSE, row.names=FALSE, col.names = colnames(test))
+
+
+```
