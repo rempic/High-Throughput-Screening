@@ -13,4 +13,4 @@ As a proof of concept for this project I focused on quantifying and classifying 
 - [Data management](/Data_Managment/README.md)
 - Machine Learning Classifiers
   - [Classifier for cells at the edge](https://github.com/rempic/MACHINE-LEARNING-Edge-Cells-classifier/)
-  - [Classifier for mitotic cells](machine_learning_classifiers/MITOTICCELLS/README.md)
+  - Classifier for mitotic cells
