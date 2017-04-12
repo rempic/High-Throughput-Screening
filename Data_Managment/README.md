@@ -1,5 +1,5 @@
 
-## [Data Cleaning: TECHNICAL and CONSISTENCY corrections of the data] (https://cdn.rawgit.com/rempic/High-Throughput-Screening/master/Data_Managment/data_cleaning.html)
+## [Data Cleaning: TECHNICAL and CONSISTENCY corrections of the data](https://cdn.rawgit.com/rempic/High-Throughput-Screening/master/Data_Managment/data_cleaning.html)
 
 The goal of this module is to clean the raw data obtained from the [data extraction](/Data_Extraction). in particular the data cleaning consists of TECHNICAL and CONSISTENCY corrections of the data. 
 
